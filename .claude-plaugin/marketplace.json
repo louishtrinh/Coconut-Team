@@ -1,0 +1,17 @@
+{
+  "name": "coconut",
+  "owner": {
+    "name": "Big Coconut"
+  },
+  "metadata": {
+    "description": "Big Coconut's private Claude Code marketplace.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "coconut-team",
+      "source": "./plugins/coconut-team",
+      "description": "Four-agent product team: Bob (design direction), Daisuki-chan (implementation), Hiram (QA and security), Amy (project record and coordination). Includes activity-log and drift-detection hooks."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "description": "Records teammate activity and flags a stale project record.",
+  "hooks": {
+    "SubagentStop": [
+      {
+        "matcher": "bob|daisuki-chan|hiram|amy",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/log-agent.sh",
+            "args": [],
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/nudge-amy.sh",
+            "args": [],
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
