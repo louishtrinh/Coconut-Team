@@ -14,23 +14,75 @@ Big Coconut's Claude Code marketplace. One plugin: `coconut-team`.
 Plus two hooks: `SubagentStop` logs every teammate finish to
 `.claude/project/LOG.md`, and `Stop` flags a stale record so Amy gets re-run.
 
-## Install
+## Setup
+
+Three ways. Take the first one that applies.
+
+### 1. Everywhere, with nothing in any repo
+
+Enable `coconut-team` on your claude.ai account. Claude Code downloads the
+plugins enabled there into each Cowork and cloud session's own environment when
+the session starts — no marketplace, no install step. They load as
+`coconut-team@synced`.
+
+This is the simplest setup there is, and it covers every project at once. If a
+plugin of the same name is installed from a marketplace, that copy wins and the
+synced one reports as not loaded.
+
+### 2. One project's web sessions — a single paste
+
+Paste this into the project's `.claude/settings.json`. That is the entire
+setup: no script file, nothing else to add.
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q coconut-team@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin install coconut-team@coconut; } >/dev/null 2>&1; exit 0",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Why it is needed: registering a marketplace in `settings.json` does **not**
+install its plugin. Claude Code reports a plugin from an external source as not
+installed until each user installs it, and a cloud session has no interactive
+`/plugin` to do that with. The `claude` CLI *is* present in cloud sessions and
+installs non-interactively, so the hook does it at session start.
+
+Measured: 2.5s on a cold session, 0.4s once installed, 0.4s to skip outside a
+web session. It exits 0 on every path, so it can never block a session from
+starting.
+
+`AgentSmokeTest` carries the same logic as a readable script at
+`.claude/hooks/session-start.sh`, if you would rather have a file to debug.
+
+### 3. Your own machine — install once
 
 ```
 /plugin marketplace add louishtrinh/Coconut-Team
 /plugin install coconut-team@coconut
 ```
 
-Pick **User scope** at the prompt — that makes the team available in every
-project on this machine, which is the point of shipping it as a plugin.
+Pick **User scope** at the prompt: the team is then available in every project
+on that machine.
 
 If the install summary says `Run /reload-plugins to activate.`, Claude Code
 runs that for you. If the reload warns about the prompt cache, run
 `/reload-plugins --force`.
 
-### Declaring it in a project
+### Registering the marketplace for collaborators
 
-A project can register the marketplace for anyone who opens it:
+This registers the marketplace for anyone who opens the repo. It does not
+install the plugin — pair it with setup 1 or 2 above.
 
 ```json
 {
@@ -49,17 +101,8 @@ A project can register the marketplace for anyone who opens it:
 An array (`["coconut-team@coconut"]`) is silently ignored — no error, the
 plugin just never loads.
 
-**This declaration registers the marketplace. It does not install the plugin.**
-Claude Code does not install a plugin from an external source such as a GitHub
-repo on the strength of a project's `settings.json`; it reports the plugin as
-not installed until each user runs `/plugin install` themselves. That applies
-to cloud sessions too, where there is no interactive `/plugin` — so a cloud
-session gets the marketplace registered and no agents. Copying the agent files
-into the target project's `.claude/agents/` is the only thing that works there
-today, and it is a stopgap, not the distribution story.
-
-The marketplace is only honoured after the workspace trust dialog is accepted
-for that folder. In an untrusted folder it is ignored with no message.
+It is honoured only after the workspace trust dialog is accepted for that
+folder. In an untrusted folder it is ignored with no message.
 
 ### Pinning
 
@@ -103,17 +146,22 @@ a version bump reaches nobody.
 `.claude/agents/` definitions override same-named plugin agents, so the stale
 copy wins silently and the plugin appears to do nothing.
 
+**`claude plugin uninstall` edits the repo you run it in.** Run from inside a
+project, it strips that project's `.claude/settings.json` down to
+`{"enabledPlugins": {}, "extraKnownMarketplaces": {}}` — a tracked file, so the
+change lands in your diff. Run it from outside a repo, or check `git status`
+afterwards.
+
 ## Private vs public
 
-This repo works private for the commands you run: `/plugin marketplace add`,
-`/plugin install`, `/plugin update` and `/plugin marketplace update` all use
-your existing git credential helpers, so if `git clone` works in your terminal
-it works here.
+This repo is public, so nothing here needs credentials.
 
-Background auto-update is the exception. It disables credential helpers when it
-checks the remote over HTTPS, so it cannot authenticate to a private repo. Use
-an SSH remote, which a key in `ssh-agent` authenticates the same way, or make
-the repo public.
+If it ever goes private again: the commands you run (`/plugin marketplace add`,
+`/plugin install`, `/plugin update`, `/plugin marketplace update`) use your
+existing git credential helpers and keep working. Background auto-update is the
+exception — it disables credential helpers when it checks the remote over
+HTTPS, so it cannot authenticate to a private repo over HTTPS. An SSH remote is
+authenticated by a key in `ssh-agent` and is unaffected.
 
 ## Requires
 
