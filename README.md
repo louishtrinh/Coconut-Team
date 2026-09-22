@@ -14,6 +14,11 @@ Big Coconut's Claude Code marketplace. One plugin: `coconut-team`.
 Plus two hooks: `SubagentStop` logs every teammate finish to
 `.claude/project/LOG.md`, and `Stop` flags a stale record so Amy gets re-run.
 
+Plugin agents are namespaced, so they load as `coconut-team:bob`,
+`coconut-team:daisuki-chan`, `coconut-team:hiram` and `coconut-team:amy` — not
+the bare names. A project `CLAUDE.md` that names the bare ones needs updating
+to match.
+
 ## Setup
 
 Three ways. Take the first one that applies.
@@ -62,8 +67,8 @@ Measured: 2.5s on a cold session, 0.4s once installed, 0.4s to skip outside a
 web session. It exits 0 on every path, so it can never block a session from
 starting.
 
-`AgentSmokeTest` carries the same logic as a readable script at
-`.claude/hooks/session-start.sh`, if you would rather have a file to debug.
+`AgentSmokeTest` uses this exact block, if you want a working example to
+copy from.
 
 ### 3. Your own machine — install once
 
