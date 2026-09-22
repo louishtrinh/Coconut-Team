@@ -3,7 +3,7 @@
   "hooks": {
     "SubagentStop": [
       {
-        "matcher": "bob|daisuki-chan|hiram|amy",
+        "matcher": "(coconut-team:)?(bob|daisuki-chan|hiram|amy)",
         "hooks": [
           {
             "type": "command",
