@@ -21,20 +21,40 @@ to match.
 
 ## Setup
 
-Three ways. Take the first one that applies.
+Four ways. Take the first one that applies.
 
-### 1. Everywhere, with nothing in any repo
+### 1. Cloud environment setup script — agents ready on turn one
 
-Enable `coconut-team` on your claude.ai account. Claude Code downloads the
-plugins enabled there into each Cowork and cloud session's own environment when
-the session starts — no marketplace, no install step. They load as
-`coconut-team@synced`.
+A cloud environment's setup script runs *before* Claude Code launches, and the
+result is cached per environment. That is the only point early enough for the
+agents to exist in your first message.
+
+At claude.ai/code, open the environment dialog and put this in **Setup script**:
+
+```bash
+claude plugin marketplace add louishtrinh/Coconut-Team
+claude plugin install coconut-team@coconut
+```
+
+Everything below installs the plugin *after* Claude Code has built its agent
+list, so the team can be one turn late. `/reload-plugins` clears that when it
+happens.
+
+### 2. Everywhere, with nothing in any repo
+
+Enable `coconut-team` on your claude.ai account, under **Customize** in the
+sidebar — on the **Plugins** tab. Not Skills: a plugin is not a skill, and
+searching for it there returns nothing.
+
+Claude Code downloads the plugins enabled there into each Cowork and cloud
+session's own environment when the session starts — no marketplace, no install
+step. They load as `coconut-team@synced`.
 
 This is the simplest setup there is, and it covers every project at once. If a
 plugin of the same name is installed from a marketplace, that copy wins and the
 synced one reports as not loaded.
 
-### 2. One project's web sessions — a single paste
+### 3. One project's web sessions — a single paste
 
 Paste this into the project's `.claude/settings.json`. That is the entire
 setup: no script file, nothing else to add.
@@ -70,7 +90,7 @@ starting.
 `AgentSmokeTest` uses this exact block, if you want a working example to
 copy from.
 
-### 3. Your own machine — install once
+### 4. Your own machine — install once
 
 ```
 /plugin marketplace add louishtrinh/Coconut-Team
@@ -87,7 +107,7 @@ runs that for you. If the reload warns about the prompt cache, run
 ### Registering the marketplace for collaborators
 
 This registers the marketplace for anyone who opens the repo. It does not
-install the plugin — pair it with setup 1 or 2 above.
+install the plugin — pair it with setup 1, 2 or 3 above.
 
 ```json
 {
