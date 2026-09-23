@@ -75,9 +75,11 @@ Register it in `BRANCHES.md` the moment you create it.
 Close it only after it has actually merged:
 
 ```bash
-git branch --merged main | grep -qx '  <branch>' && \
+git merge-base --is-ancestor <branch> main && \
   git worktree remove Prototype/<branch> && git branch -d <branch>
 ```
+
+Don't grep `git branch --merged` for the name instead: git lists a branch that is checked out in a worktree as `+ <branch>`, so that grep never matches while the worktree exists.
 
 `-d` refuses to delete unmerged work — that refusal is the safety net, so
 never reach for `-D`. Update `BRANCHES.md` in the same pass: a branch gone from
