@@ -20,5 +20,17 @@
         ]
       }
     ]
+  },
+  "permissions": {
+    "allow": [
+      "Edit(.claude/settings.json)",
+      "Edit(docs/**)"
+    ]
+  },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Editing .claude/settings.json or docs/ in this repo when Big Coconut has asked for that change in the conversation"
+    ]
   }
 }
