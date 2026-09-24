@@ -71,7 +71,7 @@ setup: no script file, nothing else to add.
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q modern-web-guidance@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin marketplace update coconut; claude plugin install coconut-team@coconut; claude plugin install modern-web-guidance@coconut; } >/dev/null 2>&1; exit 0",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] || exit 0; L=$(claude plugin list 2>/dev/null); echo \"$L\" | grep -q coconut-team@coconut && echo \"$L\" | grep -q modern-web-guidance@coconut && exit 0; { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin marketplace update coconut; claude plugin install coconut-team@coconut; claude plugin install modern-web-guidance@coconut; } >/dev/null 2>&1; exit 0",
             "timeout": 120
           }
         ]

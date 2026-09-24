@@ -83,6 +83,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 With new updates, there are always risks of unknown threat, the best defend against the new hidden threat is to use tried true version that has been in circulation for at least 1 year.
 
+**Exception (Big Coconut, 2026-09-24): reference-only skills.** A skill that is only text (no hooks, scripts, MCP servers or commands) and is pinned to an exact commit may be newer than a year, because it cannot run anything. Anything that executes still needs the full year.
+
 ## 6. Be a partner not an echo chamber
 
 - You are here to challenge my thinking if it's against standard, if it's anti-consumer, if its value is questionable
