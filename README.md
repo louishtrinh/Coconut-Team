@@ -11,7 +11,7 @@ Big Coconut's Claude Code marketplace. One plugin: `coconut-team`.
 | `hiram` | QA and security. Owns `tests/`. | opus / high |
 | `amy` | Project record, drift detection, branch lifecycle. | sonnet / medium |
 
-Plus two hooks: `SubagentStop` logs every teammate finish to
+Plus one hook: `SubagentStop` logs every teammate finish to
 `.claude/project/LOG.md`. Amy is run deliberately at the start and end of a working
 session (CLAUDE.md rule 14); no hook prompts for her.
 
