@@ -8,6 +8,7 @@ AgentSmokeTest was only where it was tested.
 | `CLAUDE.md` | The team rules. Goes at the root of every project. |
 | `setup.bat` | Windows setup: creates the folders, `.gitignore`, `.claude\settings.json`, and installs embedded Python 3.11.9 into `python\`. |
 | `Launch.bat` | Runs the project's `src\main.py` with that Python. |
+| `settings.json` | Goes to `.claude\settings.json`: turns on the team plugin, and its `SessionStart` hook installs the plugin in web sessions. |
 | `setup.sh` | The Linux/macOS setup, for cloud sessions (no embedded Python). |
 | `USING-THE-TEAM.md` | How to set up and talk to the team. |
 

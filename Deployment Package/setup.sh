@@ -8,7 +8,8 @@
 #    - copies CLAUDE.md
 #    - creates the ownership lanes (docs/design, src, tests)
 #    - adds Prototype/ to .gitignore
-#    - writes .claude/settings.json so cloud sessions load the plugin
+#    - copies settings.json (plugin + web-session install hook) and
+#      USING-THE-TEAM.md into the project
 # ============================================================
 set -euo pipefail
 
@@ -52,6 +53,8 @@ for d in docs/design src tests; do
   [[ -e "$TARGET/$d/.gitkeep" ]] || touch "$TARGET/$d/.gitkeep"
 done
 
+[[ -e "$TARGET/docs/USING-THE-TEAM.md" ]] || { cp "$KIT/USING-THE-TEAM.md" "$TARGET/docs/USING-THE-TEAM.md"; echo "  [ok]   docs/USING-THE-TEAM.md copied"; }
+
 # ---- 3. .gitignore ---------------------------------------------------
 touch "$TARGET/.gitignore"
 if grep -qxF 'Prototype/' "$TARGET/.gitignore"; then
@@ -63,24 +66,13 @@ fi
 
 # ---- 4. .claude/settings.json ---------------------------------------
 write_settings() {
-  cat > "$1" <<EOF
-{
-  "extraKnownMarketplaces": {
-    "coconut": {
-      "source": { "source": "github", "repo": "$MARKET" }
-    }
-  },
-  "enabledPlugins": {
-    "coconut-team@coconut": true
-  }
-}
-EOF
+  cp "$KIT/settings.json" "$1"
 }
 
 if [[ -f "$TARGET/.claude/settings.json" ]]; then
   write_settings "$TARGET/.claude/settings.coconut-snippet.json"
   echo "  [skip] settings.json exists - wrote settings.coconut-snippet.json"
-  echo "         Merge extraKnownMarketplaces and enabledPlugins by hand."
+  echo "         Merge it by hand: marketplace, plugin, and the SessionStart hook."
 else
   write_settings "$TARGET/.claude/settings.json"
   echo "  [ok]   .claude/settings.json written"

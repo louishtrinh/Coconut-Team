@@ -11,7 +11,8 @@ rem  Does the things the plugin cannot do for you:
 rem    - copies CLAUDE.md
 rem    - creates the ownership lanes (docs\design, src, tests)
 rem    - adds Prototype/ to .gitignore
-rem    - writes .claude\settings.json so cloud sessions load the plugin
+rem    - copies settings.json (plugin + the hook that installs it in web
+rem      sessions) into .claude\, and USING-THE-TEAM.md into docs\
 rem    - copies Launch.bat and installs embedded Python into python\
 rem      (rule 11: setup.bat installs, Launch.bat runs)
 rem ============================================================
@@ -63,6 +64,8 @@ call :keep "%TARGET%\docs\design"
 call :keep "%TARGET%\src"
 call :keep "%TARGET%\tests"
 
+if not exist "%TARGET%\docs\USING-THE-TEAM.md" copy /y "%KIT%USING-THE-TEAM.md" "%TARGET%\docs\USING-THE-TEAM.md" >nul & echo   [ok]   docs\USING-THE-TEAM.md copied
+
 rem ---- 3. .gitignore -------------------------------------------------
 if not exist "%TARGET%\.gitignore" type nul > "%TARGET%\.gitignore"
 findstr /x /c:"Prototype/" "%TARGET%\.gitignore" >nul 2>&1
@@ -84,11 +87,11 @@ if errorlevel 1 (
 
 rem ---- 4. .claude\settings.json --------------------------------------
 if exist "%TARGET%\.claude\settings.json" (
-  call :snippet "%TARGET%\.claude\settings.coconut-snippet.json"
+  copy /y "%KIT%settings.json" "%TARGET%\.claude\settings.coconut-snippet.json" >nul
   echo   [skip] settings.json exists - wrote settings.coconut-snippet.json
-  echo          Merge extraKnownMarketplaces and enabledPlugins by hand.
+  echo          Merge it by hand: marketplace, plugin, and the SessionStart hook.
 ) else (
-  call :snippet "%TARGET%\.claude\settings.json"
+  copy /y "%KIT%settings.json" "%TARGET%\.claude\settings.json" >nul
   echo   [ok]   .claude\settings.json written
 )
 
@@ -127,19 +130,6 @@ exit /b
 
 :keep
 if not exist "%~1\.gitkeep" type nul > "%~1\.gitkeep"
-exit /b
-
-:snippet
-> "%~1" echo {
->>"%~1" echo   "extraKnownMarketplaces": {
->>"%~1" echo     "coconut": {
->>"%~1" echo       "source": { "source": "github", "repo": "%MARKET%" }
->>"%~1" echo     }
->>"%~1" echo   },
->>"%~1" echo   "enabledPlugins": {
->>"%~1" echo     "coconut-team@coconut": true
->>"%~1" echo   }
->>"%~1" echo }
 exit /b
 
 :python

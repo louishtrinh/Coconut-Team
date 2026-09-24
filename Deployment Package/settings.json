@@ -1,0 +1,23 @@
+{
+  "extraKnownMarketplaces": {
+    "coconut": {
+      "source": { "source": "github", "repo": "louishtrinh/Coconut-Team" }
+    }
+  },
+  "enabledPlugins": {
+    "coconut-team@coconut": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q coconut-team@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin install coconut-team@coconut; } >/dev/null 2>&1; exit 0",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
