@@ -12,7 +12,8 @@ Big Coconut's Claude Code marketplace. One plugin: `coconut-team`.
 | `amy` | Project record, drift detection, branch lifecycle. | sonnet / medium |
 
 Plus two hooks: `SubagentStop` logs every teammate finish to
-`.claude/project/LOG.md`, and `Stop` flags a stale record so Amy gets re-run.
+`.claude/project/LOG.md`. Amy is run deliberately at the start and end of a working
+session (CLAUDE.md rule 14); no hook prompts for her.
 
 Plugin agents are namespaced, so they load as `coconut-team:bob`,
 `coconut-team:daisuki-chan`, `coconut-team:hiram` and `coconut-team:amy` — not

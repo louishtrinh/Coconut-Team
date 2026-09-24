@@ -1,6 +1,6 @@
 {
   "name": "coconut-team",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A four-agent product team. Bob directs design and approves merges, Daisuki-chan implements, Hiram runs QA and security, Amy keeps the project record and catches drift. Ships the activity-log and drift-detection hooks the team depends on.",
   "author": {
     "name": "Big Coconut"
