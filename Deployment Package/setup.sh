@@ -86,6 +86,7 @@ Done. Next:
   2) git add -A && git commit -m "Coconut Team setup" && git push
   3) In Claude Code:  /plugin marketplace add $MARKET
                       /plugin install coconut-team@coconut
+                      /plugin install modern-web-guidance@coconut
                       /reload-plugins
   4) Check with /agents - Bob, Daisuki-chan, Hiram, Amy should be listed.
 

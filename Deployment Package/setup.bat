@@ -113,6 +113,7 @@ echo   1^) cd /d "%TARGET%"
 echo   2^) git add -A ^&^& git commit -m "Coconut Team setup" ^&^& git push
 echo   3^) In Claude Code:  /plugin marketplace add %MARKET%
 echo                       /plugin install coconut-team@coconut
+echo                       /plugin install modern-web-guidance@coconut
 echo                       /reload-plugins
 echo   4^) Check with /agents - Bob, Daisuki-chan, Hiram, Amy should be listed.
 echo.

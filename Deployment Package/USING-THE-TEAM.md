@@ -52,6 +52,7 @@ your very first message. It is cached, so it only runs once per environment.
 ```bash
 claude plugin marketplace add louishtrinh/Coconut-Team
 claude plugin install coconut-team@coconut
+claude plugin install modern-web-guidance@coconut
 ```
 
 4. Save. The next new session has the team from turn one.
@@ -86,7 +87,7 @@ for anyone else who opens that repo.
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q coconut-team@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin install coconut-team@coconut; } >/dev/null 2>&1; exit 0",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q modern-web-guidance@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin marketplace update coconut; claude plugin install coconut-team@coconut; claude plugin install modern-web-guidance@coconut; } >/dev/null 2>&1; exit 0",
             "timeout": 120
           }
         ]

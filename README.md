@@ -1,6 +1,8 @@
 # coconut
 
-Big Coconut's Claude Code marketplace. One plugin: `coconut-team`.
+Big Coconut's Claude Code marketplace. Two plugins: `coconut-team` (the agents below) and
+`modern-web-guidance` (Google Chrome's web best-practice skills, pinned to an
+upstream commit in `.claude-plugin/marketplace.json`).
 
 ## What's in it
 
@@ -35,6 +37,7 @@ At claude.ai/code, open the environment dialog and put this in **Setup script**:
 ```bash
 claude plugin marketplace add louishtrinh/Coconut-Team
 claude plugin install coconut-team@coconut
+claude plugin install modern-web-guidance@coconut
 ```
 
 Everything below installs the plugin *after* Claude Code has built its agent
@@ -68,7 +71,7 @@ setup: no script file, nothing else to add.
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q coconut-team@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin install coconut-team@coconut; } >/dev/null 2>&1; exit 0",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q modern-web-guidance@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin marketplace update coconut; claude plugin install coconut-team@coconut; claude plugin install modern-web-guidance@coconut; } >/dev/null 2>&1; exit 0",
             "timeout": 120
           }
         ]
@@ -96,6 +99,7 @@ copy from.
 ```
 /plugin marketplace add louishtrinh/Coconut-Team
 /plugin install coconut-team@coconut
+/plugin install modern-web-guidance@coconut
 ```
 
 Pick **User scope** at the prompt: the team is then available in every project
@@ -118,7 +122,8 @@ install the plugin — pair it with setup 1, 2 or 3 above.
     }
   },
   "enabledPlugins": {
-    "coconut-team@coconut": true
+    "coconut-team@coconut": true,
+    "modern-web-guidance@coconut": true
   }
 }
 ```

@@ -5,7 +5,8 @@
     }
   },
   "enabledPlugins": {
-    "coconut-team@coconut": true
+    "coconut-team@coconut": true,
+    "modern-web-guidance@coconut": true
   },
   "hooks": {
     "SessionStart": [
@@ -13,7 +14,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q coconut-team@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin install coconut-team@coconut; } >/dev/null 2>&1; exit 0",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] && ! claude plugin list 2>/dev/null | grep -q modern-web-guidance@coconut && { claude plugin marketplace add louishtrinh/Coconut-Team; claude plugin marketplace update coconut; claude plugin install coconut-team@coconut; claude plugin install modern-web-guidance@coconut; } >/dev/null 2>&1; exit 0",
             "timeout": 120
           }
         ]

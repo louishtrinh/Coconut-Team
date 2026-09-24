@@ -12,6 +12,15 @@
       "name": "coconut-team",
       "source": "./plugins/coconut-team",
       "description": "Four-agent product team: Bob (design direction), Daisuki-chan (implementation), Hiram (QA and security), Amy (project record and coordination). Includes activity-log and drift-detection hooks."
+    },
+    {
+      "name": "modern-web-guidance",
+      "source": {
+        "source": "github",
+        "repo": "googlechrome/modern-web-guidance",
+        "sha": "22ab18dfb50a5d7e3bdcf471c14076a5534eae4e"
+      },
+      "description": "Google Chrome's web best-practice skills (modern-web-guidance, chrome-extensions). Pinned to upstream v0.0.190; bump the sha deliberately."
     }
   ]
 }
