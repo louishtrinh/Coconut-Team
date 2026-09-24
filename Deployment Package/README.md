@@ -1,4 +1,4 @@
-# Deployment kit
+# Deployment Package
 
 The files every new project starts with. This folder is the master copy;
 AgentSmokeTest was only where it was tested.
@@ -13,11 +13,14 @@ AgentSmokeTest was only where it was tested.
 
 ## New project
 
-1. `git pull` in your local Coconut-Team folder, to get the latest kit.
-2. Copy **all the files in this folder** into the new project's folder
-   (`setup.bat` takes `CLAUDE.md` and `Launch.bat` from the folder it sits in).
-3. Double-click `setup.bat` in the new project and press **Enter** (Enter = this folder).
+1. `git pull` in your local Coconut-Team folder, to get the latest package.
+2. Copy this whole **`Deployment Package`** folder into the new project's folder.
+3. Double-click `Deployment Package\setup.bat` and press **Enter**
+   (Enter = the project folder the package sits in). It copies `CLAUDE.md` and
+   `Launch.bat` up to the project, creates the folders, and installs Python.
 4. `git add -A`, `git commit -m "Project setup"`, `git push`.
+
+The package stays in the project, so `setup.bat` can be re-run on another PC.
 
 Changing a rule or a script: edit it here, push, and new projects get it.
 Existing projects keep their own copy until you copy the new one over.

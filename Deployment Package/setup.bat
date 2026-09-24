@@ -28,12 +28,14 @@ if "%~1"=="" goto ask
 set "TARGET=%~1"
 goto have
 :ask
-set /p "TARGET=Path to the project to set up (Enter = this folder): "
+set /p "TARGET=Path to the project to set up (Enter = the folder this package is in): "
 :have
 rem a drag-dropped path arrives in quotes; keep paths quoted only where used
 if defined TARGET set "TARGET=%TARGET:"=%"
 
-if "%TARGET%"=="" set "TARGET=%KIT%"
+rem This file lives in the project's "Deployment Package" folder, so the
+rem project is the folder one level up.
+if "%TARGET%"=="" for %%I in ("%KIT%..") do set "TARGET=%%~fI"
 if not exist "%TARGET%\" echo. & echo Not found: "%TARGET%" & goto done
 
 echo.
