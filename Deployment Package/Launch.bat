@@ -2,10 +2,10 @@
 setlocal
 
 rem ============================================================
-rem  Launch.bat - runs the calculator  (Windows)
+rem  Launch.bat - runs this project's src\main.py  (Windows)
 rem
-rem  Double-click it. The first run asks where main.py lives and
-rem  remembers the answer in launch.cfg next to this file.
+rem  Double-click it. If src\main.py is not next to this file, it asks
+rem  where main.py lives and remembers the answer in launch.cfg.
 rem  Delete launch.cfg to be asked again.
 rem
 rem  Python: the embedded copy in .\python\ if one is there,
@@ -51,7 +51,7 @@ if not defined PY where python >nul 2>&1 && set "PY=python"
 if not defined PY echo Python 3 not found. Install it, or put an embedded copy in "%HERE%python\" & goto done
 
 rem The embeddable build's pythonXY._pth keeps the script's own folder off
-rem sys.path, which would break "from calculator import ...". Put it back.
+rem sys.path, which would break imports of sibling modules. Put it back.
 rem The path travels as an argument, never inside the code string.
 "%PY%" %PYARGS% -c "import os,sys,runpy; p=os.path.abspath(sys.argv[1]); sys.path.insert(0,os.path.dirname(p)); sys.argv=[p]; runpy.run_path(p,run_name='__main__')" "%SCRIPT%"
 if errorlevel 1 goto done
