@@ -62,9 +62,9 @@ Every official design gets a design doc in `docs/design/`: each feature explaine
 
 ## 11. Setup and launch
 
-- **`setup.bat`** (in the `Deployment Package` folder copied into each project; Enter = the folder the package sits in) creates the project skeleton, copies `CLAUDE.md` and `Launch.bat` up, and installs Python 3.11.9 (official Windows embeddable build, Big Coconut's template) into `python\` (gitignored). Any third-party dependency is installed into `python\` here too.
+- **`setup.bat`** (in the `Deployment Package` folder copied into each project; Enter = the folder the package sits in) creates the project skeleton, copies `CLAUDE.md`, `Launch.bat` and `release.bat` up, and installs Python 3.11.9 (official Windows embeddable build, Big Coconut's template) into `python\` (gitignored). Any third-party dependency is installed into `python\` here too.
 - **The entry point is always `src/main.py`** at the repo root, next to `Launch.bat`.
-- **`Launch.bat`** runs `src\main.py` next to itself with `python\python.exe`, falling back to `py`, then `python`. Only if that file is missing does it ask for a location (Enter = its own folder) and save it to `launch.cfg` (gitignored); delete it to be asked again.
+- **`Launch.bat`** runs `src\main.py` next to itself with `python\python.exe`, falling back to `py`, then `python`. Only if that file is missing does it ask for a location (Enter = its own folder) and save it to `launch.cfg` (gitignored); delete it to be asked again. On a deployed PC, `deploy.bat` writes `launch.cfg` (rule 19).
 - `setup.sh` is the Linux/macOS equivalent for cloud sessions (project skeleton only, no embedded Python).
 - Scripts in the package are shared by every app: no app names in them.
 
@@ -79,7 +79,7 @@ Before any official run, ask Big Coconut for permission to run a QA pass, then i
 - Bob's design states the QA scope in one line. Findings outside it are logged as known limitations.
 - One pass and one fix loop; a second pass only for a severity-1 defect inside scope.
 - Never report a build ready, or summarize a QA pass, that Hiram has not actually run.
-- Hiram tests what the Linux sandbox can run; the Windows path (`setup.bat`, `Launch.bat`, GUI) runs only on Big Coconut's machine.
+- Hiram tests what the Linux sandbox can run; the Windows path (`setup.bat`, `Launch.bat`, `release.bat`, `deploy.bat`, GUI) runs only on Big Coconut's machine.
 
 ## 14. The team
 
@@ -97,7 +97,7 @@ Four agents in the `coconut-team` plugin (marketplace `coconut`, repo `louishtri
 - **Route by ownership.** A change that overturns a design decision goes to Bob; a defect goes to Daisuki-chan even if Hiram knows the fix. A change wanted in someone else's path is a report, not an edit.
 - **Handoffs are commits**, never copied folders.
 - **Nothing unrequested.** New features, options, dependencies, abstractions or files outside the plan are proposals. Making the requested thing work, verified, with its required failure handling, is not an addition.
-- `setup.bat`, `setup.sh`, `CLAUDE.md` and `docs/USING-THE-TEAM.md` belong to nobody; changes to them are proposals to Big Coconut.
+- The package scripts (`setup.bat`, `setup.sh`, `Launch.bat`, `release.bat`, `deploy.bat`), `CLAUDE.md` and `docs/USING-THE-TEAM.md` belong to nobody; changes to them are proposals to Big Coconut.
 - If Big Coconut improvises the same missing role three times, Amy writes it up in `ROSTER.md`. Hiring is his call.
 
 ## 15. The project record
@@ -142,6 +142,20 @@ Effort matches the size of the thing (Big Coconut, 2026-09-23: a simple calculat
 - The main session reports to Big Coconut only at milestones: a spec to approve, a release, a real blocker.
 - Ask for a known-good template before writing platform code nobody can run here.
 - Hook nudges get one line or none.
+
+## 18. Release
+
+- **`release.bat`** (project root, copied by `setup.bat`) publishes a new version to a shared folder every PC can reach. It always asks for the location; Enter reuses the last one, saved in `release.cfg` (gitignored).
+- It copies only what PCs need: `src\` (mirrored, so deleted files go too), `python\`, `Launch.bat` and `deploy.bat`. No tests, docs or `.claude\`.
+- A release is live: every deployed PC runs it at its next launch. Roll back by releasing the previous commit.
+- The code runs from the share, so a program never writes into its own folder. Logs, settings and output go to a per-user or per-PC location.
+
+## 19. Deploy
+
+- **`deploy.bat`** sits in the release folder. At a PC: open the share, double-click it, press Enter (default `C:\<release folder name>`). It must be obvious in 10 seconds with no README; anything that needs explaining is a defect in the script.
+- It installs only what runs the program: Python 3.11.9 into `python\` (downloaded from python.org; copied from the release folder if there is no internet), `Launch.bat`, and a `launch.cfg` pointing at the share's `src\main.py`.
+- The code is never copied to the PC: `Launch.bat` runs the shared `src\main.py` with the local Python. Redeploy only when Python or its packages change.
+- A downloaded Python has only the standard library. A program that needs third-party packages changes this rule first (proposal to Big Coconut).
 
 ---
 

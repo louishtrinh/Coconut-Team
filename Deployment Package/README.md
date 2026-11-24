@@ -8,6 +8,8 @@ AgentSmokeTest was only where it was tested.
 | `CLAUDE.md` | The team rules. Goes at the root of every project. |
 | `setup.bat` | Windows setup: creates the folders, `.gitignore`, `.claude\settings.json`, and installs embedded Python 3.11.9 into `python\`. |
 | `Launch.bat` | Runs the project's `src\main.py` with that Python. |
+| `release.bat` | Copied to the project. Publishes a version to a shared folder (Enter = last location). |
+| `deploy.bat` | Copied to the shared folder by `release.bat`. Run it at each PC to install Python and `Launch.bat`; the code stays on the share. |
 | `settings.json` | Goes to `.claude\settings.json`: turns on the team plugin, and its `SessionStart` hook installs the plugin in web sessions. |
 | `setup.sh` | The Linux/macOS setup, for cloud sessions (no embedded Python). |
 | `USING-THE-TEAM.md` | How to set up and talk to the team. |
@@ -17,11 +19,17 @@ AgentSmokeTest was only where it was tested.
 1. `git pull` in your local Coconut-Team folder, to get the latest package.
 2. Copy this whole **`Deployment Package`** folder into the new project's folder.
 3. Double-click `Deployment Package\setup.bat` and press **Enter**
-   (Enter = the project folder the package sits in). It copies `CLAUDE.md` and
-   `Launch.bat` up to the project, creates the folders, and installs Python.
+   (Enter = the project folder the package sits in). It copies `CLAUDE.md`,
+   `Launch.bat` and `release.bat` up to the project, creates the folders, and installs Python.
 4. `git add -A`, `git commit -m "Project setup"`, `git push`.
 
 The package stays in the project, so `setup.bat` can be re-run on another PC.
 
 Changing a rule or a script: edit it here, push, and new projects get it.
 Existing projects keep their own copy until you copy the new one over.
+
+## Release and deploy
+
+1. Dev PC: double-click `release.bat`, type the shared folder (next time: Enter).
+2. Each PC, once: open the shared folder, double-click `deploy.bat`, press Enter.
+3. Later releases go live on every PC at its next launch. No redeploy.

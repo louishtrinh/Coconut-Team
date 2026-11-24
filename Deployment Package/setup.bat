@@ -13,11 +13,12 @@ rem    - creates the ownership lanes (docs\design, src, tests)
 rem    - adds Prototype/ to .gitignore
 rem    - copies settings.json (plugin + the hook that installs it in web
 rem      sessions) into .claude\, and USING-THE-TEAM.md into docs\
-rem    - copies Launch.bat and installs embedded Python into python\
+rem    - copies Launch.bat and release.bat, and installs embedded Python
+rem      into python\
 rem      (rule 11: setup.bat installs, Launch.bat runs)
 rem ============================================================
 
-set "RULES_VERSION=v0.1.0"
+set "RULES_VERSION=v0.2.0"
 set "KIT=%~dp0"
 set "MARKET=louishtrinh/Coconut-Team"
 rem  Rule 11: Python 3.11.9 embeddable, the version Big Coconut's proven
@@ -84,6 +85,9 @@ if errorlevel 1 (
 ) else (
   echo   [skip] .gitignore: /python/ already listed
 )
+rem per-machine paths saved by Launch.bat and release.bat
+call :ignore launch.cfg
+call :ignore release.cfg
 
 rem ---- 4. .claude\settings.json --------------------------------------
 if exist "%TARGET%\.claude\settings.json" (
@@ -95,12 +99,18 @@ if exist "%TARGET%\.claude\settings.json" (
   echo   [ok]   .claude\settings.json written
 )
 
-rem ---- 5. Launch.bat -------------------------------------------------
+rem ---- 5. Launch.bat, release.bat -------------------------------------------------
 if exist "%TARGET%\Launch.bat" (
   echo   [skip] Launch.bat already exists
 ) else (
   copy /y "%KIT%Launch.bat" "%TARGET%\Launch.bat" >nul
   echo   [ok]   Launch.bat copied
+)
+if exist "%TARGET%\release.bat" (
+  echo   [skip] release.bat already exists
+) else (
+  copy /y "%KIT%release.bat" "%TARGET%\release.bat" >nul
+  echo   [ok]   release.bat copied
 )
 
 rem ---- 6. embedded Python --------------------------------------------
@@ -127,6 +137,12 @@ if exist "%~1\" (
   mkdir "%~1" 2>nul
   echo   [ok]   created "%~1"
 )
+exit /b
+
+:ignore
+findstr /x /c:"%~1" "%TARGET%\.gitignore" >nul 2>&1 && exit /b
+>>"%TARGET%\.gitignore" echo %~1
+echo   [ok]   .gitignore: added %~1
 exit /b
 
 :keep

@@ -13,7 +13,7 @@
 # ============================================================
 set -euo pipefail
 
-RULES_VERSION="v0.1.0"
+RULES_VERSION="v0.2.0"
 MARKET="louishtrinh/Coconut-Team"
 KIT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
