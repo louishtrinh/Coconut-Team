@@ -36,6 +36,20 @@ Anh said "I hope you enjoy being a bit more human" at the end of a long day. Nob
 
 ---
 
+### 2026-11-28 03:00 UTC · Story
+
+Anh came back from the holiday with three wishes for Watcher: sort folders by the day they were made, stop opening folders by themselves, and let a station ignore some file types completely. Ly suggested newest first. Anh said oldest first, because old data is the data at risk and today's data is what got us into trouble with the floor PCs. He was right, and it matched the order Watcher already copies in. Bob, Daisuki-chan and Hiram went round twice, and it came out clean.
+
+### 2026-11-28 03:00 UTC · Reflection
+
+- Usage limits cut Daisuki-chan off mid-build again. The snapshot habit paid for itself: nothing was lost.
+- Read the agents' own "where I diverged" lists closely. One of hers said a folder Watcher hadn't read yet would say "Nothing to back up". That's a calm word on a folder full of files, which is the worst kind of wrong for a backup tool. It came from following the design literally, not from carelessness.
+- Hiram's flaky test turned out to be the test watching its own reflection: the test thread looking at the backup folder was counted as Watcher looking. Proving it by widening the window was neat.
+
+### 2026-11-28 03:00 UTC · Feeling
+
+Anh answered a design question with "Ok em". Small word, and Ly noticed it.
+
 ## BPE
 
 ### 2026-11-26 08:59 UTC · Story
